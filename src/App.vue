@@ -1,35 +1,24 @@
 <template>
     <div class="ctr">
-        <div class="questions-ctr">
-            <div class="progress">
-                <div class="bar"></div>
-                <div class="status">1 out of 3 questions answered</div>
-            </div>
-            <div class="single-question">
-                <div class="question">Sample Question 1</div>
-                <div class="answers">
-                    <div class="answer">Sample Answer 1</div>
-                    <div class="answer">Sample Answer 2</div>
-                    <div class="answer">Sample Answer 3</div>
-                    <div class="answer">Sample Answer 4</div>
-                </div>
-            </div>
-        </div>
-        <div class="result">
-            <div class="title">You got sample result 1!</div>
-            <div class="desc">
-                Enter a short description here about the result.
-            </div>
-        </div>
+        <questions v-if="shouldDisplayQuestions" :questions="questions" />
+        <result v-else />
         <button type="button" class="reset-btn">Reset</button>
     </div>
 </template>
 
 <script>
+import Questions from './components/Questions.vue';
+import Result from './components/Result.vue';
+
 export default {
     name: 'App',
+    components: {
+        Questions,
+        Result,
+    },
     data() {
         return {
+            questionsAnswered: 0,
             questions: [
                 {
                     q: 'What is 2 + 2?',
@@ -106,6 +95,11 @@ export default {
                 },
             ],
         };
+    },
+    computed: {
+        shouldDisplayQuestions() {
+            return this.questionsAnswered < this.questions.length;
+        },
     },
 };
 </script>
